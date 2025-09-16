@@ -1,0 +1,457 @@
+/**
+ * Passkey - Frontend Styles
+ * 
+ * Styles for the passkey login interface
+ * 
+ * @package MDLOGIN_Passkey
+ * @version 1.0.0
+ */
+
+/* Main Container */
+.login  form#loginform {
+    display: flex;
+    flex-direction: column;
+}
+.mdlogin-container {
+    order: 3;
+}
+/* Divider */
+.mdlogin-divider {
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+    color: #98999e;
+    display: flex;
+    align-items: center;
+    gap: 0.88em;
+    font-size: 13px;
+    font-weight: 500;
+}
+.mdlogin-divider::before,
+.mdlogin-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1 1 0%;
+    background: #e7e7e9;
+}
+.mdlogin-divider span {
+    background: #fff;
+    padding: 0 15px;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Title */
+.mdlogin-title {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Button Container */
+#mdlogin {
+    width: 100%;
+}
+.mdlogin-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.mdlogin-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Primary Button */
+.mdlogin-button-primary {
+    background: transparent;
+    color: #131315;
+    border: 1px solid #e7e7e9;
+}
+
+.mdlogin-button-primary:hover {
+    background: #e7e7e9;
+}
+
+/* Secondary Button */
+.mdlogin-button-secondary {
+    background: #f1f1f1;
+    color: #5c5c5c;
+    padding: 11px 20px;
+}
+
+.mdlogin-button-secondary:hover {
+    background: rgb(0 0 0 / 7%);
+    color: #000000;
+}
+
+/* Description */
+.mdlogin-description {
+    margin: 0;
+    color: #50575e;
+    line-height: 1.4;
+    text-align: left;
+}
+
+/* Username Field */
+.mdlogin-username-field {
+    margin: 15px 0;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mdlogin-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.mdlogin-input:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.2);
+}
+
+/* Input group */
+.mdlogin-input-group {
+    margin-bottom: 15px;
+}
+
+.mdlogin-input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 400;
+    color: #333;
+    font-size: 14px;
+}
+#mdlogin-register-link {
+    text-decoration: none;
+    color: #50575e;
+}
+#mdlogin-register-link:hover {
+    color: #135e96;
+}
+.mdlogin-register.mdlogin-default-login input[type=text]::placeholder {
+    font-size: 13px;
+    line-height:20px;
+    color: #aaaaaa;
+    font-weight: 400;
+}
+.mdlogin-default-login {
+    margin-top: 12px;
+}
+/* Status Messages */
+.mdlogin-status {
+    margin: 20px 0;
+    padding: 8px 10px;
+    border-radius: 2px;
+    font-size: 13px;
+    display: none;
+    line-height: 1.4;
+}
+
+.mdlogin-status.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.mdlogin-status.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    font-weight: 500;
+}
+
+/* Specific error styling for registration conflicts */
+.mdlogin-status.error[data-error-type="conflict"] {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.mdlogin-status.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Loading Spinner */
+.mdlogin-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: mdlogin-spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes mdlogin-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Icons */
+.mdlogin-icon {
+    margin-right: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mdlogin-title {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mdlogin-title {
+        font-size: 15px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .mdlogin-button {
+        transition: none;
+    }
+    
+    .mdlogin-loading {
+        animation: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .mdlogin-input {
+        border: 2px solid #000;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .mdlogin-container {
+        display: none;
+    }
+}
+
+/* Disabled registration status */
+.mdlogin-status-disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.mdlogin-status-disabled p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Duplicate authenticator error styling */
+.mdlogin-duplicate-authenticator {
+    text-align: left;
+}
+
+.mdlogin-duplicate-authenticator p {
+    margin: 0 0 10px 0;
+    color: #d63638;
+    font-weight: 500;
+}
+
+.mdlogin-suggestions {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f6fc;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+}
+
+.mdlogin-suggestions p {
+    margin: 0 0 8px 0;
+    font-weight: 500;
+    color: #1d2327;
+}
+
+.mdlogin-suggestions ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.mdlogin-suggestions li {
+    margin: 4px 0;
+    color: #50575e;
+}
+
+/* Profile Page Styles */
+.mdlogin-status-active {
+    color: #46b450;
+    font-weight: 500;
+}
+
+.mdlogin-status-active .dashicons {
+    color: #46b450;
+    margin-right: 5px;
+}
+
+.mdlogin-status-inactive {
+    color: #dc3232;
+    font-weight: 500;
+}
+
+.mdlogin-status-inactive .dashicons {
+    color: #dc3232;
+    margin-right: 5px;
+}
+
+.mdlogin-limit-reached {
+    color: #ffb900;
+    font-weight: 500;
+}
+
+.mdlogin-limit-reached .dashicons {
+    color: #ffb900;
+    margin-right: 5px;
+}
+
+.mdlogin-credentials-list {
+    margin-top: 15px;
+}
+
+.mdlogin-credentials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.mdlogin-credential-item {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: box-shadow 0.2s ease;
+}
+
+.mdlogin-credential-item:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mdlogin-credential-icon {
+    flex-shrink: 0;
+}
+
+.mdlogin-credential-icon .dashicons {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: #0073aa;
+}
+
+.mdlogin-credential-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.mdlogin-credential-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.mdlogin-credential-info p {
+    margin: 0 0 3px 0;
+    font-size: 12px;
+    color: #646970;
+    line-height: 1.4;
+}
+
+.mdlogin-credential-actions {
+    flex-shrink: 0;
+}
+
+.mdlogin-delete-credential {
+    padding: 4px 8px !important;
+    min-height: auto !important;
+    line-height: 1.4 !important;
+}
+
+.mdlogin-delete-credential .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #dc3232;
+}
+
+.mdlogin-delete-credential:hover .dashicons {
+    color: #a00;
+}
+
+.mdlogin-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #646970;
+}
+
+.mdlogin-loading .spinner {
+    margin-right: 8px;
+}
+
+#mdlogin-register-profile .dashicons{
+    vertical-align: middle;
+}
+
+/* Responsive design for profile page */
+@media (max-width: 768px) {
+    .mdlogin-credentials-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mdlogin-credential-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .mdlogin-credential-actions {
+        align-self: stretch;
+    }
+    
+    .mdlogin-delete-credential {
+        width: 100%;
+        justify-content: center;
+    }
+} 

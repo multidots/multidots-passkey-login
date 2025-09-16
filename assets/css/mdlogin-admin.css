@@ -1,0 +1,701 @@
+/**
+ * Passkey - Admin Styles
+ * 
+ * Styles for the admin panel interface
+ * 
+ * @package MDLOGIN_Passkey
+ * @version 1.0.0
+ */
+
+/* Status Indicators */
+.mdlogin-status-active {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.mdlogin-status-inactive {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+.mdlogin-credential-count {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+    display: block;
+}
+
+.mdlogin-no-credentials {
+    color: #666;
+    font-style: italic;
+}
+
+/* Modal Styles */
+.mdlogin-modal {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mdlogin-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mdlogin-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.mdlogin-modal-close:hover,
+.mdlogin-modal-close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* User Info */
+.mdlogin-user-info {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.mdlogin-user-info h3 {
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.mdlogin-user-info p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Credentials Table */
+.mdlogin-credentials-table {
+    margin-top: 15px;
+}
+
+.mdlogin-credentials-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mdlogin-credentials-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.mdlogin-credentials-table td {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: top;
+}
+
+.mdlogin-credentials-table code {
+    background-color: #f8f9fa;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 12px;
+    word-break: break-all;
+    display: inline-block;
+    max-width: 200px;
+}
+
+/* Settings Page */
+.mdlogin-settings-info {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    max-width: 380px;
+}
+.mdlogin-settings-info h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.mdlogin-settings-info table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.mdlogin-settings-info th {
+    text-align: left;
+    padding: 8px 0;
+    font-weight: 600;
+    width: 200px;
+}
+
+.mdlogin-settings-info td {
+    padding: 8px 0;
+    color: #666;
+}
+
+/* Button Styles */
+.view-credentials {
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.view-credentials:hover {
+    background-color: #005a87;
+    color: white;
+}
+
+.delete-credential {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.delete-credential:hover {
+    background-color: #c82333;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mdlogin-modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 15px;
+    }
+
+    .mdlogin-credentials-table {
+        overflow-x: auto;
+    }
+
+    .mdlogin-credentials-table table {
+        min-width: 600px;
+    }
+
+    .mdlogin-credentials-table code {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mdlogin-modal-content {
+        width: 98%;
+        margin: 5% auto;
+        padding: 10px;
+    }
+
+    .mdlogin-credentials-table table {
+        min-width: 500px;
+    }
+
+    .mdlogin-credentials-table code {
+        max-width: 100px;
+        font-size: 11px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .mdlogin-modal-content {
+        transition: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .mdlogin-modal-content {
+        border: 2px solid #000;
+    }
+
+    .mdlogin-credentials-table th {
+        border-bottom: 2px solid #000;
+    }
+
+    .mdlogin-credentials-table td {
+        border-bottom: 1px solid #000;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .mdlogin-modal {
+        position: static;
+        background: none;
+    }
+
+    .mdlogin-modal-content {
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .mdlogin-modal-close {
+        display: none;
+    }
+} 
+
+
+/* Admin Settings page */
+
+/* Admin Settings page */
+.mdlogin-wrap * {
+    box-sizing: border-box;
+}
+.toplevel_page_mdlogin-settings  div#wpcontent,.passkey_page_mdlogin-management div#wpcontent,.mdlogin_page_mdlogin-management div#wpcontent{
+    padding-left: 0;
+}
+.mdlogin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 20px 32px;
+    background-color: #272e38;
+    position: sticky;
+   top: 32px;
+    z-index: 999;
+    will-change: transform;
+    transform: translateZ(0); /* Force GPU compositing */
+    backface-visibility: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+.mdlogin-header.scrolled {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+}
+.mdlogin-wrap .form-table th {
+    width: 335px;
+}
+
+.mdlogin-header_title {
+    color: #fff;
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 500;
+    margin: 0;
+}
+.mdlogin-header a.mdlogin-logo {
+    display: block;
+    line-height: normal;
+}
+.mdlogin-header a.mdlogin-logo img {
+    height: auto;
+}
+.mdlogin-main-wrap {
+    border-radius: 8px;
+    margin: 70px 30px 30px;
+    background-color: #fff;
+    border: 1px solid #dde1e7;
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, .1);
+}
+.mdlogin-main-wrap h2 {
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 600;
+    color: #0b1014;
+    margin-top: 0;
+    border-bottom: 1px solid #dde1e7;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+.mdlogin-main-wrap .form-table input:focus {
+    border-color: #fc5536;
+    box-shadow: none;
+}
+.mdlogin-main-wrap p {
+    margin-top: 0;
+}
+.mdlogin-main-wrap input#submit {
+    font-size: 14px;
+    font-weight: 500;
+    transition: .1s;
+    min-height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    background-color: #fd5636;
+    border: 0;
+    transition: all .3s ease-in-out;
+    color: #fff;
+    margin-top: 20px;
+}
+.mdlogin-main-wrap input#submit:hover {
+    background-color: #f33a17;
+}
+.mdlogin-shortcode-code {
+    margin-bottom: 15px;
+}
+.mdlogin-main-wrap input[type=checkbox] {
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    border: 1px solid #b9b9b9;
+    margin-right: 7px;
+}
+.mdlogin-main-wrap .form-table td p {
+    text-wrap: auto;
+}
+.mdlogin-main-wrap  .form-table td select {
+    width: auto;
+}
+.mdlogin-main-wrap  .form-table td select:hover {
+    color: #fc5536;
+}
+.mdlogin-main-wrap  .form-table td select:focus {
+    border-color: #fc5536;
+    box-shadow: none;
+}
+.mdlogin-main-wrap input[type=checkbox]:checked::before {
+    content: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M14.83 4.89l1.34.94-5.81 8.38H9.02L5.78 9.67l1.34-1.25 2.57 2.4z' fill='%23f33a17'/%3E%3C/svg%3E");
+    margin: -1.1px;
+    height: 18px;
+    width: 18px;
+}
+.mdlogin-main-wrap input[type=number] {
+    border: 1px solid #b9b9b9;
+}
+
+.mdlogin-main-wrap .nav-tab-wrapper {
+    border: none;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    margin: 0;
+    width: 100%;
+    border-bottom: 1px solid #dde1e7;
+    padding: 0;
+}
+.mdlogin-main-wrap .nav-tab-wrapper .nav-tab {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    padding: 20px 30px;
+    margin: 0;
+    color: #0b1014;
+    background: #fbfbfb;
+    cursor: pointer;
+    transition: .25s;
+    border: 0;
+    outline: none;
+    box-shadow: none;
+}
+.mdlogin-main-wrap .nav-tab-wrapper .nav-tab-active {
+    background-color: #fff;
+    z-index: 0;
+    margin-top: -15px;
+    overflow: hidden;
+    position: relative;
+    top: 2px;
+}
+.mdlogin-main-wrap .nav-tab-wrapper .nav-tab+.nav-tab {
+    border-left: 1px solid #dde1e7;
+}
+.mdlogin-main-wrap .nav-tab-wrapper a.nav-tab:first-child {
+    border-left: none;
+}
+.mdlogin-main-wrap .nav-tab-wrapper .nav-tab-active::before {
+    content: "";
+    background-image: linear-gradient(135deg, #fd5637 0%, #f33a17 100%);
+    width: 100%;
+    height: 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: .3s ease-in-out;
+    z-index: 2;
+    width: 100%;
+    height: 5px;
+}
+.mdlogin-main-wrap .tab-content {
+    padding: 30px;
+}
+.mdlogin-footer {
+    text-align: center;
+    margin: 50px 30px 30px;
+}
+.mdlogin-footer p {
+    color: #fff;
+    padding: 20px 10px;
+    background: #272e38;
+    border-radius: 5px;
+}
+.mdlogin-footer a {
+    color: #fc5536;
+    outline: none;
+    box-shadow: none;
+}
+.mdlogin-footer img {
+    width: 100%;
+}
+.mdlogin-management .mdlogin-main-wrap {
+    padding: 25px;
+}
+.mdlogin-management table, .mdlogin-management .widefat thead th {
+    border-color: #dde1e7;
+}
+.mdlogin-management .widefat thead th {
+    font-weight: 500;
+}
+.mdlogin-management table {
+    margin-top: 20px;
+    background-color: #fff;
+}
+.mdlogin-management th.sortable a,.mdlogin-management th.sorted a {
+    padding: 12px 8px;
+    color: #5e5e5e;
+}
+.mdlogin-management .widefat thead td, .mdlogin-management .widefat thead th {
+    border-bottom: 1px solid #dde1e7;
+}
+.mdlogin-management .widefat tfoot td, .mdlogin-management .widefat tfoot th {
+    border-top: 1px solid #dde1e7;
+}
+.wp-core-ui .mdlogin-management .button {
+    color: #fd5636;
+    border-color: #fd5636;
+    background-color: #fff;
+}
+.wp-core-ui .mdlogin-management .button:hover {
+    background: #fd5636;
+    border-color: #fd5636;
+    color: #fff;
+}
+.mdlogin-management .striped>tbody>:nth-child(odd), .mdlogin-management ul.striped>:nth-child(odd) {
+    background-color: #f6f7f7;
+}
+@media (max-width: 1024px) {
+    .mdlogin-main-wrap {
+        margin: 30px 20px;
+    }
+}
+@media  (max-width: 782px) {
+    .mdlogin-header {
+        top: 46px;
+    }
+    .mdlogin-main-wrap  .form-table th {
+        padding: 10px 0 6px;
+    }
+}
+@media (max-width: 767px) {
+    .mdlogin-main-wrap .nav-tab-wrapper {
+        flex-direction: column;
+    }
+    .mdlogin-main-wrap .tab-content {
+        padding: 20px 10px 0 10px;
+        border-top: 1px solid #dde1e7;
+        margin: 15px -10px 0;
+    }
+    .mdlogin-main-wrap .nav-tab-wrapper .nav-tab {
+        display: block;
+    }
+    .mdlogin-main-wrap .nav-tab-wrapper .nav-tab.nav-tab-active {
+        margin-top: 0;
+    }
+    .mdlogin-main-wrap .nav-tab-wrapper .nav-tab.nav-tab-active::before {
+        background-image: none;
+        content: "-";
+        color: #fd5637;
+        position: absolute;
+        right: 12px;
+        top: 10px;
+        left: auto;
+        font-size: 20px;
+        font-weight: 600;
+        transition: .3s ease-in-out;
+        display: block;
+        width: 20px;
+    }
+    .mdlogin-main-wrap .nav-tab-wrapper .nav-tab+.nav-tab {
+        border-left: none;
+    }
+    .mdlogin-main-wrap .nav-tab-wrapper .nav-tab::before {
+        content: "+";
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #0b1014;
+        transition: .3s ease-in-out;
+        display: inline-block;
+    }
+
+    .mdlogin-main-wrap .nav-tab-wrapper .nav-tab {
+        padding: 20px 10px;
+        text-align: left;
+        position: relative;
+        display: block;
+        overflow: hidden;
+    }
+    .mdlogin-main-wrap h2 {
+        font-size: 16px;
+        line-height: 26px;
+        padding-bottom: 0;
+        border-bottom: none;
+        margin-bottom: 15px;
+    }
+    .mdlogin-main-wrap p {
+        text-wrap: auto;
+    }
+    .mdlogin-header a.mdlogin-logo img {
+        height: 25px;
+        position: relative;
+        top: 2px;
+    }
+    .mdlogin-header_title {
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .mdlogin-header {
+        padding: 16px;
+    }
+}
+@media  (max-width: 600px) {
+    .mdlogin-header {
+        top: 0;
+    }
+}
+
+/* Authenticator Column Styles */
+.authenticators-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.authenticator-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+}
+
+.authenticator-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.authenticator-google {
+    background-color: #4285f4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z'/%3E%3Cpath d='M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z'/%3E%3Cpath d='M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z'/%3E%3Cpath d='M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z'/%3E%3C/svg%3E");
+}
+
+.authenticator-apple {
+    background-color: #000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z'/%3E%3C/svg%3E");
+}
+
+.authenticator-chrome {
+    background-color: #4285f4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 0C8.21 0 4.67 1.92 2.66 4.94L7.35 9.63C8.21 8.79 9.35 8.25 10.5 8.25C11.65 8.25 12.79 8.79 13.65 9.63L18.34 4.94C16.33 1.92 12.79 0 9 0H12ZM12 24C15.79 24 19.33 22.08 21.34 19.06L16.65 14.37C15.79 15.21 14.65 15.75 13.5 15.75C12.35 15.75 11.21 15.21 10.35 14.37L5.66 19.06C7.67 22.08 11.21 24 15 24H12Z'/%3E%3C/svg%3E");
+}
+
+.authenticator-safari {
+    background-color: #006cff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+}
+
+.authenticator-firefox {
+    background-color: #ff7139;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+}
+
+.authenticator-edge {
+    background-color: #0078d4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+}
+
+.authenticator-android {
+    background-color: #3ddc84;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0L14.12 1.75c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0z'/%3E%3C/svg%3E");
+}
+
+.authenticator-platform {
+    background-color: #6c757d;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+}
+
+.authenticator-security-key {
+    background-color: #fd7e14;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z'/%3E%3C/svg%3E");
+}
+
+.authenticator-unknown {
+    background-color: #6c757d;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z'/%3E%3C/svg%3E");
+}
+
+.authenticator-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+}
+
+.no-authenticator {
+    color: #999;
+    font-style: italic;
+}
+
+/* Responsive adjustments for authenticator column */
+@media (max-width: 1200px) {
+    .authenticator-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .authenticator-icon {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .authenticator-name {
+        font-size: 11px;
+    }
+}
+
