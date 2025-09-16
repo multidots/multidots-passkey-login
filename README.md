@@ -6,8 +6,8 @@ Passwordless login for WordPress with Passkeys. Enable Touch ID, Face ID, and se
 ## Features
 
 - **🔐 Secure & Seamless Login**
- - Passwordless login with Touch ID, Face ID, or security keys.
- - Works instantly for existing users after passkey registration.
+  - Passwordless login with Touch ID, Face ID, or security keys.
+  - Works instantly for existing users after passkey registration.
 
 - **📝 Easy User Registration**
    - Register a passkey for existing users without one.
