@@ -5,8 +5,8 @@ Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.1
 Stable tag: 1.0.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: GPL-3.0+
+License URI: http://www.gnu.org/licenses/gpl.html
 
 Passwordless login for WordPress with Passkeys. Enable Touch ID, Face ID, and security keys for seamless, phishing-resistant authentication.
 

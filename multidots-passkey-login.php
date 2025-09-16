@@ -8,8 +8,8 @@
  * Requires PHP:      8.1
  * Author:            Multidots
  * Author URI:        https://www.multidots.com/
- * License:           GPL v2 or later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * License:           GPL-3.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       multidots-passkey-login
  * Domain Path:       /languages
  */
