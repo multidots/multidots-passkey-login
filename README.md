@@ -1,5 +1,5 @@
 # Multidots Passkey Login – Passwordless Login for WordPress
-![MD Passkey Login Banner](https://github.com/user-attachments/assets/0d4e8e6a-efae-43ad-a952-44477002f787)
+![MD Passkey Login Banner](https://github.com/user-attachments/assets/167129bf-8115-416e-9436-d7100f99276c)
 
 Passwordless login for WordPress with Passkeys. Enable Touch ID, Face ID, and security keys for seamless, phishing-resistant authentication.
 
