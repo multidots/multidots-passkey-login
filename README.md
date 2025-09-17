@@ -1,5 +1,5 @@
-# Multidots Passkey Login – Passwordless Authentication
-![MD Passkey Login Banner](https://github.com/user-attachments/assets/0d4e8e6a-efae-43ad-a952-44477002f787)
+# Multidots Passkey Login – Passwordless Login for WordPress
+![MD Passkey Login Banner](https://github.com/user-attachments/assets/f1d8889a-448c-4f62-b44f-a857d8a46741)
 
 Passwordless login for WordPress with Passkeys. Enable Touch ID, Face ID, and security keys for seamless, phishing-resistant authentication.
 
@@ -32,13 +32,13 @@ Passwordless login for WordPress with Passkeys. Enable Touch ID, Face ID, and se
 * Initial release.
 
 ## Credits
-Multidots Passkey Login – Passwordless Authentication is developed by Multidots. We appreciate the contributions from the open-source community.
+Multidots Passkey Login – Passwordless Login for WordPress is developed by Multidots. We appreciate the contributions from the open-source community.
 
 ## Support
 For support or questions, please [open an issue](https://github.com/multidots/multidots-passkey-login/issues) or contact us via our website at [multidots.com](http://multidots.com/).
 
 ## License
-Multidots Passkey Login – Passwordless Authentication is licensed under the GNU General Public License v3. See the license file for more details.
+Multidots Passkey Login – Passwordless Login for WordPress is licensed under the GNU General Public License v3. See the license file for more details.
 
 ## Get In Touch
 <a href="https://www.multidots.com/contact-us/" rel="nofollow"><img width="1692" height="296" alt="01-GitHub Footer" src="https://github.com/user-attachments/assets/6b9d63e7-3990-472d-acb9-5e4e51b446fc" /></a>
