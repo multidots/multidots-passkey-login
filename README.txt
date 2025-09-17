@@ -1,6 +1,6 @@
-=== Multidots Passkey Login – Passwordless Authentication ===
+=== Multidots Passkey Login – Passwordless Login for WordPress ===
 Contributors: Multidots
-Tags: passwordless, authentication, security, touchid , passkey
+Tags: passkey, login, passwordless, biometric login , authentication
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.1
@@ -11,14 +11,22 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Passwordless login for WordPress with Passkeys. Enable Touch ID, Face ID, and security keys for seamless, phishing-resistant authentication.
 
 == Description ==
-**Multidots Passkey Login – Passwordless Authentication** brings the next generation of login security to WordPress.
-With Passkeys, users can log in using **biometric authentication (Touch ID, Face ID)** or their **device’s security keys**—no passwords required. 
-This creates a fast, secure, and phishing-resistant login experience that works across modern browsers and devices.
-Built with flexibility in mind:
-- Works instantly for existing WordPress users after registering a passkey.
-- Provides admins with simple but powerful controls to manage login flows and security.
-Based on **FIDO2/WebAuthn standards**, Passkeys deliver strong, passwordless login trusted by global tech leaders like Apple, Google, and Microsoft.
+**Multidots Passkey Login** – Passwordless Authentication brings next-generation login security to WordPress.
 
+Give your users a **secure and modern login experience** with passkeys — the new standard for **passwordless authentication** supported by all major browsers and devices.
+
+With Multidots Passkey Login, users can log in using **biometric authentication** (Face ID, Touch ID), **Windows Hello, or a device PIN—no passwords are** required.
+
+This creates a **fast, secure, and phishing-resistant** login experience that works seamlessly across desktop and mobile.
+
+**Built for Flexibility:**
+<ul>
+<li>Instantly works for existing WordPress users after registering a passkey.</li>
+<li>Simple yet powerful admin settings to manage login behavior and security.</li>
+<li>Built on the <strong>FIDO2/WebAuthn standard</strong> trusted by <strong>Apple, Google, and Microsoft</strong>.</li>
+</ul>
+
+Perfect for publishers, WooCommerce stores, agency clients, and high-security use cases.
 
 == Key Features ==
 **🔐 Secure & Seamless Login**
@@ -42,10 +50,10 @@ Based on **FIDO2/WebAuthn standards**, Passkeys deliver strong, passwordless log
 </ul>
 
 **🎨 Frontend Integration**
-Shortcodes included
+Shortcodes included:
 <ul>
-<li>`[mdlogin_passkey_login]` → Displays a Login with Passkey button.</li>
-<li>`[mdlogin_passkey_register]` →  Displays passkey registration form.</li>
+<li> [mdlogin_passkey_login] → Displays a Login with Passkey button.</li>
+<li> [mdlogin_passkey_register]  →  Displays passkey registration form.</li>
 </ul>
 
 **🛡️ Security Requirements**
@@ -80,6 +88,15 @@ Pro Plugin: PRE-SALE Questions – [Click here](https://www.multidots.com/contac
 
 == Frequently Asked Questions ==
 
+= What is a Passkey? =
+A passkey is a secure credential stored on your device (like Face ID, fingerprint, or PIN). It’s used to log into websites without needing to remember or type a password.
+
+= Do passkeys work on mobile devices? =
+Yes! Passkeys work across mobile and desktop. Users can log in using their built-in biometrics or unlock methods.
+
+= Is this plugin compatible with WordPress Multisite? =
+Yes. It works smoothly with multisite setups.
+
 = Do I need SSL/HTTPS for this plugin? =
 Yes. HTTPS is required for secure operation of passkeys.
 
@@ -106,6 +123,7 @@ You can post your queries on the WordPress.org support forum for the plugin.
 2.
 3. 
 4. 
+5.
 
 == Changelog ==
 = 1.0.0 =

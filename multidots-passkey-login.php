@@ -1,6 +1,6 @@
 <?php
  /*
- * Plugin Name:       Multidots Passkey Login – Passwordless Authentication
+ * Plugin Name:       Multidots Passkey Login – Passwordless Login for WordPress
  * Plugin URI:        https://www.multidots.com
  * Description:       Adds secure Passkey authentication using WebAuthn to WordPress login page. Users can register and login using their device's biometric authentication or PIN.
  * Version:           1.0
@@ -8,8 +8,8 @@
  * Requires PHP:      8.1
  * Author:            Multidots
  * Author URI:        https://www.multidots.com/
- * License:           GPL-3.0+
- * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
+ * License:          GPL-3.0+
+ * License URI:       http://www.gnu.org/licenses/gpl.html
  * Text Domain:       multidots-passkey-login
  * Domain Path:       /languages
  */
