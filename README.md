@@ -28,6 +28,14 @@ Passwordless login for WordPress with Passkeys. Enable Touch ID, Face ID, and se
    - Requires HTTPS for secure operation
   
 ## Changelog
+1.1 - 16.10.2025 
+* Implemented comprehensive input sanitization and validation across all user inputs.
+* Added rate limiting to prevent brute force attacks and abuse.
+* Enhanced session security with improved management and metadata protection
+* Integrated full CSRF token validation to prevent cross-site request forgery.
+* Applied multiple security headers to mitigate common web vulnerabilities.
+* Minor bug fixes and code refactoring for better maintainability
+
 1.0.0 
 * Initial release.
 

@@ -87,7 +87,7 @@ class MDLOGIN_Passkey_Admin {
         add_submenu_page(
             'mdlogin-settings',
             __('Passkey Settings', 'multidots-passkey-login'),
-            __('Setting', 'multidots-passkey-login'), // This changes the submenu label
+            __('Settings', 'multidots-passkey-login'), // This changes the submenu label
             'manage_options',
             'mdlogin-settings', // same slug as parent
             array($this, 'mdlogin_settings_page')
@@ -466,30 +466,71 @@ class MDLOGIN_Passkey_Admin {
     }
 
     /**
+     * Enhanced nonce verification for admin actions
+     *
+     * @param string $nonce Nonce to verify
+     * @param string $action Action name
+     * @return bool True if valid, false otherwise
+     */
+    private function mdlogin_verify_admin_nonce($nonce, $action) {
+        if (empty($nonce) || empty($action)) {
+            return false;
+        }
+
+        // Validate nonce format
+        if (!preg_match('/^[a-zA-Z0-9]{10}$/', $nonce)) {
+            return false;
+        }
+
+        // Verify nonce
+        return wp_verify_nonce($nonce, $action);
+    }
+
+    /**
+     * Enhanced input validation for admin operations
+     *
+     * @param mixed $input Input to validate
+     * @param string $type Type of validation
+     * @return mixed|false Sanitized input or false if invalid
+     */
+    private function mdlogin_validate_admin_input($input, $type) {
+        switch ($type) {
+            case 'user_id':
+                $input = absint($input);
+                return $input > 0 ? $input : false;
+                
+            case 'credential_id':
+                $input = sanitize_text_field($input);
+                return !empty($input) && strlen($input) >= 10 ? $input : false;
+                
+            case 'nonce':
+                $input = sanitize_text_field($input);
+                return !empty($input) && strlen($input) === 10 ? $input : false;
+                
+            default:
+                return sanitize_text_field($input);
+        }
+    }
+
+    /**
      * AJAX handler for getting user credentials
      */
     public function mdlogin_ajax_get_user_credentials() {
-        // Verify nonce
-        if (
-            ! wp_verify_nonce(
-                sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ),
-                'mdlogin_passkey_admin_nonce'
-            )
-        ) {
-            wp_send_json_error(
-                array(
-                    'message' => __( 'Security check failed.', 'multidots-passkey-login' ),
-                )
-            );
+        // Enhanced nonce verification
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (!$this->mdlogin_verify_admin_nonce($nonce, 'mdlogin_passkey_admin_nonce')) {
+            wp_send_json_error(array(
+                'message' => __('Security check failed.', 'multidots-passkey-login'),
+            ));
         }
-
 
         // Check permissions
         if (!current_user_can('manage_options')) {
             wp_send_json_error(array('message' => __('Insufficient permissions.', 'multidots-passkey-login')));
         }
 
-        $user_id = intval($_POST['user_id'] ?? 0);
+        // Validate and sanitize user ID
+        $user_id = $this->mdlogin_validate_admin_input($_POST['user_id'] ?? 0, 'user_id');
         if (!$user_id) {
             wp_send_json_error(array('message' => __('Invalid user ID.', 'multidots-passkey-login')));
         }

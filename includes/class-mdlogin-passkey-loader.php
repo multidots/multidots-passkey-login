@@ -285,7 +285,7 @@ class MDLOGIN_Passkey_Loader {
         
         // Get count before deletion
         // @codingStandardsIgnoreStart
-        $count_before = $wpdb->get_var("SELECT COUNT(*) FROM {$table_name}");
+        $count_before = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i", $table_name));
         
         // Delete expired sessions
         $wpdb->query(
@@ -295,8 +295,8 @@ class MDLOGIN_Passkey_Loader {
             )
         );
         
-        // Get count after deletion
-        $count_after = $wpdb->get_var("SELECT COUNT(*) FROM {$table_name}");
+        // Get count after deletion using prepared statement
+        $count_after = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i", $table_name));
         // @codingStandardsIgnoreEnd
         
         $deleted_count = $count_before - $count_after;
@@ -307,7 +307,7 @@ class MDLOGIN_Passkey_Loader {
     }
 
     /**
-     * Store session data in database
+     * Store session data in database with enhanced security
      *
      * @param string $session_id Session ID
      * @param int $user_id User ID
@@ -318,12 +318,35 @@ class MDLOGIN_Passkey_Loader {
     public function mdlogin_store_session($session_id, $user_id, $challenge, $options_data) {
         global $wpdb;
         
+        // Validate inputs
+        if (empty($session_id) || !is_string($session_id) || strlen($session_id) !== 36) {
+            return false;
+        }
+        
+        if (!is_numeric($user_id) || $user_id < 0) {
+            return false;
+        }
+        
+        if (empty($challenge) || !is_string($challenge)) {
+            return false;
+        }
+        
+        if (!is_array($options_data)) {
+            return false;
+        }
+        
         // Ensure the table exists
         $this->mdlogin_ensure_table_exists();
         
         $table_name = $wpdb->prefix . 'mdlogin_passkey_sessions';
         $settings = get_option('mdlogin_passkey_settings', array());
-        $timeout = isset($settings['session_timeout']) ? $settings['session_timeout'] : 300;
+        $timeout = isset($settings['session_timeout']) ? absint($settings['session_timeout']) : 300;
+        
+        // Validate timeout range
+        if ($timeout < 60 || $timeout > 3600) {
+            $timeout = 300; // Default to 5 minutes
+        }
+        
         $http_host = '';
         if ( isset( $_SERVER['HTTP_HOST'] ) ) {
             $http_host = sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) );
@@ -342,6 +365,21 @@ class MDLOGIN_Passkey_Loader {
             $this->mdlogin_ensure_master_connection();
         }
         
+        // Enhanced security metadata with session binding
+        $client_ip = $this->mdlogin_get_client_ip();
+        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+        $session_fingerprint = $this->mdlogin_generate_session_fingerprint($client_ip, $user_agent);
+        
+        $secure_options_data = array_merge($options_data, array(
+            'ip_address' => $client_ip,
+            'user_agent' => $user_agent,
+            'created_at' => current_time('mysql'),
+            'csrf_token' => wp_create_nonce('mdlogin_session_' . $user_id),
+            'session_fingerprint' => $session_fingerprint,
+            'session_binding' => hash('sha256', $client_ip . $user_agent . $user_id),
+            'security_level' => $this->mdlogin_calculate_security_level($client_ip, $user_agent)
+        ));
+        
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom session table requires direct database access
         $result = $wpdb->insert(
             $table_name,
@@ -349,7 +387,7 @@ class MDLOGIN_Passkey_Loader {
                 'session_id' => $session_id,
                 'user_id' => $user_id,
                 'challenge' => base64_encode($challenge), // Encode binary data as base64
-                'options_data' => wp_json_encode($options_data),
+                'options_data' => wp_json_encode($secure_options_data),
                 'expires_at' => $expires_at
             ),
             array('%s', '%d', '%s', '%s', '%s')
@@ -365,13 +403,11 @@ class MDLOGIN_Passkey_Loader {
             $transient_data = array(
                 'user_id' => $user_id,
                 'challenge' => base64_encode($challenge),
-                'options_data' => $options_data,
+                'options_data' => $secure_options_data,
                 'expires_at' => $expires_at
             );
             
             set_transient($transient_key, $transient_data, $timeout);
-            
-
         }
         
         // For WP Engine, verify the session was stored by immediately trying to retrieve it
@@ -395,8 +431,6 @@ class MDLOGIN_Passkey_Loader {
                 if ($stored_session) {
                     break;
                 }
-                
-
             }
         }
         
@@ -577,6 +611,179 @@ class MDLOGIN_Passkey_Loader {
         dbDelta($sql);
         
 
+    }
+
+    /**
+     * Get client IP address securely
+     *
+     * @return string
+     */
+    private function mdlogin_get_client_ip() {
+        $ip_keys = array( 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR' );
+
+        foreach ( $ip_keys as $key ) {
+            if ( ! empty( $_SERVER[ $key ] ) ) {
+                // Sanitize and validate the header value before exploding
+                $raw_ips = sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) );
+                
+                foreach ( explode( ',', $raw_ips ) as $ip ) {
+                    $ip = trim( $ip );
+                    // Validate IP address and exclude private/reserved ranges
+                    if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+                        return $ip;
+                    }
+                }
+            }
+        }
+        
+        return isset( $_SERVER['REMOTE_ADDR'] )
+            ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) )
+            : '0.0.0.0';
+    }
+
+    /**
+     * Generate session fingerprint for enhanced security
+     *
+     * @param string $ip_address Client IP address
+     * @param string $user_agent User agent string
+     * @return string Session fingerprint
+     */
+    private function mdlogin_generate_session_fingerprint($ip_address, $user_agent) {
+        $fingerprint_data = array(
+            'ip' => $ip_address,
+            'user_agent' => $user_agent,
+            'accept_language' => isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_ACCEPT_LANGUAGE'])) : '',
+            'accept_encoding' => isset($_SERVER['HTTP_ACCEPT_ENCODING']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_ACCEPT_ENCODING'])) : '',
+            'connection' => isset($_SERVER['HTTP_CONNECTION']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_CONNECTION'])) : '',
+            'timestamp' => time()
+        );
+        
+        return hash('sha256', wp_json_encode($fingerprint_data));
+    }
+
+    /**
+     * Calculate security level based on client characteristics
+     *
+     * @param string $ip_address Client IP address
+     * @param string $user_agent User agent string
+     * @return int Security level (1-5, higher is more secure)
+     */
+    private function mdlogin_calculate_security_level($ip_address, $user_agent) {
+        $security_level = 1; // Base level
+        
+        // Check for VPN/Proxy indicators
+        if ($this->mdlogin_is_suspicious_ip($ip_address)) {
+            $security_level -= 1;
+        }
+        
+        // Check for suspicious user agent patterns
+        if ($this->mdlogin_is_suspicious_user_agent($user_agent)) {
+            $security_level -= 1;
+        }
+        
+        // Check for known good browsers
+        if ($this->mdlogin_is_known_browser($user_agent)) {
+            $security_level += 1;
+        }
+        
+        // Check for mobile device (generally more secure)
+        if ($this->mdlogin_is_mobile_device($user_agent)) {
+            $security_level += 1;
+        }
+        
+        // Ensure level is within bounds
+        return max(1, min(5, $security_level));
+    }
+
+    /**
+     * Check if IP address is suspicious
+     *
+     * @param string $ip_address IP address to check
+     * @return bool True if suspicious
+     */
+    private function mdlogin_is_suspicious_ip($ip_address) {
+        // Check for known VPN/proxy IP ranges (simplified check)
+        $suspicious_patterns = array(
+            '10.0.0.', '192.168.', '172.16.', '172.17.', '172.18.', '172.19.',
+            '172.20.', '172.21.', '172.22.', '172.23.', '172.24.', '172.25.',
+            '172.26.', '172.27.', '172.28.', '172.29.', '172.30.', '172.31.'
+        );
+        
+        foreach ($suspicious_patterns as $pattern) {
+            if (strpos($ip_address, $pattern) === 0) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Check if user agent is suspicious
+     *
+     * @param string $user_agent User agent string
+     * @return bool True if suspicious
+     */
+    private function mdlogin_is_suspicious_user_agent($user_agent) {
+        $suspicious_patterns = array(
+            'bot', 'crawler', 'spider', 'scraper', 'curl', 'wget', 'python',
+            'java', 'perl', 'ruby', 'php', 'go-http', 'libwww', 'lwp'
+        );
+        
+        $user_agent_lower = strtolower($user_agent);
+        
+        foreach ($suspicious_patterns as $pattern) {
+            if (strpos($user_agent_lower, $pattern) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Check if user agent is from a known browser
+     *
+     * @param string $user_agent User agent string
+     * @return bool True if known browser
+     */
+    private function mdlogin_is_known_browser($user_agent) {
+        $known_browsers = array(
+            'chrome', 'firefox', 'safari', 'edge', 'opera', 'brave'
+        );
+        
+        $user_agent_lower = strtolower($user_agent);
+        
+        foreach ($known_browsers as $browser) {
+            if (strpos($user_agent_lower, $browser) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Check if user agent is from a mobile device
+     *
+     * @param string $user_agent User agent string
+     * @return bool True if mobile device
+     */
+    private function mdlogin_is_mobile_device($user_agent) {
+        $mobile_indicators = array(
+            'mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry',
+            'windows phone', 'palm', 'pocket'
+        );
+        
+        $user_agent_lower = strtolower($user_agent);
+        
+        foreach ($mobile_indicators as $indicator) {
+            if (strpos($user_agent_lower, $indicator) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**

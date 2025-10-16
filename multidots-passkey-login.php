@@ -3,7 +3,7 @@
  * Plugin Name:       Multidots Passkey Login – Passwordless Login for WordPress
  * Plugin URI:        https://www.multidots.com
  * Description:       Adds secure Passkey authentication using WebAuthn to WordPress login page. Users can register and login using their device's biometric authentication or PIN.
- * Version:           1.0
+ * Version:           1.1
  * Requires at least: 6.0
  * Requires PHP:      8.1
  * Author:            Multidots
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('MDLOGIN_PASSKEY_VERSION', '1.0');
+define('MDLOGIN_PASSKEY_VERSION', '1.1');
 define('MDLOGIN_PASSKEY_PLUGIN_FILE', __FILE__);
 define('MDLOGIN_PASSKEY_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MDLOGIN_PASSKEY_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -106,6 +106,9 @@ final class MDLOGIN_Passkey {
      * Initialize plugin
      */
     public function mdlogin_init() {
+        // Add security headers
+        $this->mdlogin_add_security_headers();
+
         // Handle session initialization for WP Engine compatibility
         $this->mdlogin_init_sessions();
 
@@ -121,6 +124,36 @@ final class MDLOGIN_Passkey {
         // Initialize admin if in admin area
         if (is_admin()) {
             MDLOGIN_Passkey_Admin::mdlogin_get_instance();
+        }
+    }
+
+    /**
+     * Add security headers
+     */
+    private function mdlogin_add_security_headers() {
+        if (!headers_sent()) {
+            // Prevent MIME type sniffing
+            header('X-Content-Type-Options: nosniff');
+            
+            // Prevent clickjacking - Use SAMEORIGIN for WordPress compatibility
+            header('X-Frame-Options: SAMEORIGIN');
+            
+            // Enable XSS protection
+            header('X-XSS-Protection: 1; mode=block');
+            
+            // Control referrer information
+            header('Referrer-Policy: strict-origin-when-cross-origin');
+            
+            // Content Security Policy - WordPress admin specific handling
+            if (is_admin()) {
+                // More permissive CSP for WordPress admin to allow block editor iframes
+                $csp = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; style-src 'self' 'unsafe-inline' data: blob:; img-src 'self' data: https: blob:; font-src 'self' data: https:; frame-src 'self' data: blob:; connect-src 'self' data: blob:; object-src 'none'; base-uri 'self'; worker-src 'self' blob:;";
+                header("Content-Security-Policy: $csp");
+            } else {
+                // Stricter CSP for frontend pages
+                $csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src 'none'; object-src 'none';";
+                header("Content-Security-Policy: $csp");
+            }
         }
     }
 

@@ -222,8 +222,9 @@ class MDPasskeyLogin {
      * 
      * @param {string} message Message to display
      * @param {string} type Message type (success, error, info)
+     * @param {object} errorData Additional error data (retry_after, error_code)
      */
-    showMessage(message, type = 'info', errorType = null) {
+    showMessage(message, type = 'info', errorData = null) {
         const statusContainer = document.getElementById('mdlogin-status');
         if (!statusContainer) return;
 
@@ -234,17 +235,72 @@ class MDPasskeyLogin {
         // Add new type class
         statusContainer.classList.add(type);
         statusContainer.style.display = 'block';
-        statusContainer.textContent = message;
         
-        // Add error type attribute for specific styling
-        if (errorType) {
-            statusContainer.setAttribute('data-error-type', errorType);
+        // Handle rate limit errors with countdown
+        if (errorData && errorData.error_code === 'rate_limit_exceeded' && errorData.retry_after) {
+            this.showRateLimitMessage(statusContainer, message, errorData.retry_after);
+        } else {
+            statusContainer.textContent = message;
+            
+            // Add error type attribute for specific styling
+            if (errorData && errorData.error_code) {
+                statusContainer.setAttribute('data-error-type', errorData.error_code);
+            }
         }
 
-        // Auto-hide after 5 seconds
-        setTimeout(() => {
-            statusContainer.style.display = 'none';
-        }, 5000);
+        // Auto-hide after 5 seconds (except for rate limit messages)
+        if (!errorData || errorData.error_code !== 'rate_limit_exceeded') {
+            setTimeout(() => {
+                statusContainer.style.display = 'none';
+            }, 5000);
+        }
+    }
+
+    /**
+     * Show rate limit message with countdown
+     * 
+     * @param {HTMLElement} container Status container element
+     * @param {string} message Base error message
+     * @param {number} retryAfter Seconds until retry is allowed
+     */
+    showRateLimitMessage(container, message, retryAfter) {
+        let timeLeft = retryAfter;
+        
+        const updateMessage = () => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const timeString = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+            
+            container.innerHTML = `
+                <div class="mdlogin-rate-limit-message">
+                    <div class="mdlogin-rate-limit-icon">⏰</div>
+                    <div class="mdlogin-rate-limit-content">
+                        <div class="mdlogin-rate-limit-title">Too Many Attempts</div>
+                        <div class="mdlogin-rate-limit-text">${message}</div>
+                        <div class="mdlogin-rate-limit-countdown">Please wait: <span class="mdlogin-countdown-timer">${timeString}</span></div>
+                    </div>
+                </div>
+            `;
+            
+            if (timeLeft <= 0) {
+                container.innerHTML = `
+                    <div class="mdlogin-rate-limit-message">
+                        <div class="mdlogin-rate-limit-icon">✅</div>
+                        <div class="mdlogin-rate-limit-content">
+                            <div class="mdlogin-rate-limit-title">Ready to Try Again</div>
+                            <div class="mdlogin-rate-limit-text">You can now attempt the operation again.</div>
+                        </div>
+                    </div>
+                `;
+                container.setAttribute('data-error-type', 'rate_limit_exceeded');
+                return;
+            }
+            
+            timeLeft--;
+            setTimeout(updateMessage, 1000);
+        };
+        
+        updateMessage();
     }
 
     /**
@@ -424,6 +480,12 @@ class MDPasskeyLogin {
             if (!data.success) {
                 // Handle specific error messages
                 if (data.error) {
+                    // Check for rate limit errors
+                    if (data.error_code === 'rate_limit_exceeded') {
+                        this.showMessage(data.error, 'error', data);
+                        return;
+                    }
+                    
                     // Check for specific error patterns
                     if (data.error.includes('already registered')) {
                         if (data.error.includes('Username')) {

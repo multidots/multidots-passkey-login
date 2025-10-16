@@ -198,6 +198,66 @@
     border: 1px solid #bee5eb;
 }
 
+/* Rate Limit Message */
+.mdlogin-rate-limit-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    padding: 16px;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    color: #856404;
+}
+
+.mdlogin-rate-limit-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.mdlogin-rate-limit-content {
+    flex: 1;
+}
+
+.mdlogin-rate-limit-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+    color: #856404;
+}
+
+.mdlogin-rate-limit-text {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #856404;
+}
+
+.mdlogin-rate-limit-countdown {
+    font-size: 13px;
+    font-weight: 500;
+    color: #856404;
+}
+
+.mdlogin-countdown-timer {
+    font-weight: 700;
+    color: #d63031;
+    font-family: 'Courier New', monospace;
+}
+
+/* Rate limit message when ready */
+.mdlogin-rate-limit-message .mdlogin-rate-limit-icon:last-child {
+    color: #00b894;
+}
+
+.mdlogin-rate-limit-message:last-child .mdlogin-rate-limit-title {
+    color: #00b894;
+}
+
+.mdlogin-rate-limit-message:last-child .mdlogin-rate-limit-text {
+    color: #00b894;
+}
+
 /* Loading Spinner */
 .mdlogin-loading {
     display: inline-block;
