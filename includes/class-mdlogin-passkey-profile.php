@@ -138,8 +138,10 @@ class MDLOGIN_Passkey_Profile {
             return;
         }
 
-        // Check if current user can edit this profile
-        if (!current_user_can('edit_user', $user->ID)) {
+        // Only show Passkey Management section for the user viewing their own profile
+        // This prevents admins from seeing other users' passkey management sections
+        $current_user = wp_get_current_user();
+        if ($current_user->ID !== $user->ID) {
             return;
         }
 
